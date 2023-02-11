@@ -1,23 +1,83 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect } from 'react';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import Home from './components/Home';
+import consumerPurchaseHistory from './components/consumerPurchaseHistory';
 
 function App() {
+  const [isConsumer, setIsConsumer] = useState(false);
+  const [isManufacturer, setIsManufacturer] = useState(false);
+  const [isSeller, setIsSeller] = useState(false);
+  const [account, setaccount] = useState('');
+
+  const loadBlockChainData = async () => {
+    const web3 = window.web3;
+    const accounts = await web3.eth.getAccounts();
+    if (accounts) {
+      setaccount(accounts[0]);
+    }
+    const networkId = await web3.eth.net.getId();
+    
+    
+  };
+
+  const consumerRoute = () => {
+    return (
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route
+          path="/purchase-history"
+          exact
+          component={consumerPurchaseHistory}
+        />
+        <Route path="/product-verification" exact component={consumerVerification} />
+      </Switch>
+    )
+  }
+
+  const sellerRoute = () => {
+    return (
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route
+          path="/sell-product"
+          exact
+          component={sellProduct}
+        />
+        <Route path="/product-for-sale" exact component={ProductforSale} />
+      </Switch>
+    )
+  }
+
+  const manufacturerRoute = () => {
+    return (
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route
+          path="/add-product"
+          exact
+          component={addProduct}
+        />
+        <Route path="/add-seller" exact component={addSeller} />
+        <Route path="/sell-product-to-seller " exact component={sellProductToseller} />
+        <Route path="/find-seller" exact component={findSeller} />
+      </Switch>
+    )
+  }
+
+  const renderRoutes = () => {
+    if (isConsumer) return consumerRoute();
+    else if (isManufacturer) return manufacturerRoute();
+    else if (isSeller) return sellerRoute();
+    else return Home;
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Navbar />
+        {renderRoutes()}
+      </BrowserRouter>
     </div>
   );
 }

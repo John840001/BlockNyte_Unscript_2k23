@@ -7,20 +7,20 @@ contract product {
 
     struct seller{
         uint256 sellerId;
-        bytes32 sellerName;
-        bytes32 sellerBrand;
+        string sellerName;
+        string sellerBrand;
         bytes32 sellerCode;
         uint256 sellerNum;
-        bytes32 sellerManager;
-        bytes32 sellerAddress;
+        string sellerManager;
+        string sellerAddress;
     }
     mapping(uint=>seller) public sellers;
 
     struct productItem{
         uint256 productId;
         bytes32 productSN;
-        bytes32 productName;
-        bytes32 productBrand;
+        string productName;
+        string productBrand;
         uint256 productPrice;
         bytes32 productStatus;
     }
@@ -37,8 +37,8 @@ contract product {
 
     //SELLER SECTION
 
-    function addSeller(bytes32 _manufacturerId, bytes32 _sellerName, bytes32 _sellerBrand, bytes32 _sellerCode,
-    uint256 _sellerNum, bytes32 _sellerManager, bytes32 _sellerAddress) public{
+    function addSeller(bytes32 _manufacturerId, string memory _sellerName, string memory _sellerBrand, bytes32 _sellerCode,
+    uint256 _sellerNum, string memory _sellerManager, string memory _sellerAddress) public{
         sellers[sellerCount] = seller(sellerCount, _sellerName, _sellerBrand, _sellerCode,
         _sellerNum, _sellerManager, _sellerAddress);
         sellerCount++;
@@ -47,14 +47,14 @@ contract product {
     }
 
 
-    function viewSellers () public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory, bytes32[] memory) {
+    function viewSellers () public view returns(uint256[] memory, string[] memory, string[] memory, bytes32[] memory, uint256[] memory, string[] memory, string[] memory) {
         uint256[] memory ids = new uint256[](sellerCount);
-        bytes32[] memory snames = new bytes32[](sellerCount);
-        bytes32[] memory sbrands = new bytes32[](sellerCount);
+        string[] memory snames = new string[](sellerCount);
+        string[] memory sbrands = new string[](sellerCount);
         bytes32[] memory scodes = new bytes32[](sellerCount);
         uint256[] memory snums = new uint256[](sellerCount);
-        bytes32[] memory smanagers = new bytes32[](sellerCount);
-        bytes32[] memory saddress = new bytes32[](sellerCount);
+        string[] memory smanagers = new string[](sellerCount);
+        string[] memory saddress = new string[](sellerCount);
         
         for(uint i=0; i<sellerCount; i++){
             ids[i] = sellers[i].sellerId;
@@ -70,7 +70,7 @@ contract product {
 
     //PRODUCT SECTION
 
-    function addProduct(bytes32 _manufactuerID, bytes32 _productName, bytes32 _productSN, bytes32 _productBrand,
+    function addProduct(bytes32 _manufactuerID, string memory _productName, bytes32 _productSN, string memory _productBrand,
     uint256 _productPrice) public{
         productItems[productCount] = productItem(productCount, _productSN, _productName, _productBrand,
         _productPrice, "Available");
@@ -80,11 +80,11 @@ contract product {
     }
 
 
-    function viewProductItems () public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory) {
+    function viewProductItems () public view returns(uint256[] memory, bytes32[] memory, string[] memory, string[] memory, uint256[] memory, bytes32[] memory) {
         uint256[] memory pids = new uint256[](productCount);
         bytes32[] memory pSNs = new bytes32[](productCount);
-        bytes32[] memory pnames = new bytes32[](productCount);
-        bytes32[] memory pbrands = new bytes32[](productCount);
+        string[] memory pnames = new string[](productCount);
+        string[] memory pbrands = new string[](productCount);
         uint256[] memory pprices = new uint256[](productCount);
         bytes32[] memory pstatus = new bytes32[](productCount);
         
@@ -131,14 +131,14 @@ contract product {
     }
 
 
-    function queryProductsList(bytes32 _sellerCode) public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory){
+    function queryProductsList(bytes32 _sellerCode) public view returns(uint256[] memory, bytes32[] memory, string[] memory, string[] memory, uint256[] memory, bytes32[] memory){
         bytes32[] memory productSNs = productsWithSeller[_sellerCode];
         uint256 k=0;
 
         uint256[] memory pids = new uint256[](productCount);
         bytes32[] memory pSNs = new bytes32[](productCount);
-        bytes32[] memory pnames = new bytes32[](productCount);
-        bytes32[] memory pbrands = new bytes32[](productCount);
+        string[] memory pnames = new string[](productCount);
+        string[] memory pbrands = new string[](productCount);
         uint256[] memory pprices = new uint256[](productCount);
         bytes32[] memory pstatus = new bytes32[](productCount);
 
@@ -159,16 +159,17 @@ contract product {
         return(pids, pSNs, pnames, pbrands, pprices, pstatus);
     }
 
-    function querySellersList (bytes32 _manufacturerCode) public view returns(uint256[] memory, bytes32[] memory, bytes32[] memory, bytes32[] memory, uint256[] memory, bytes32[] memory, bytes32[] memory) {
+    function querySellersList (bytes32 _manufacturerCode) public view returns(uint256[] memory, string[] memory, string[] memory, bytes32[] memory, uint256[] memory, string[] memory, string[] memory) {
         bytes32[] memory sellerCodes = sellersWithManufacturer[_manufacturerCode];
         uint256 k=0;
         uint256[] memory ids = new uint256[](sellerCount);
-        bytes32[] memory snames = new bytes32[](sellerCount);
-        bytes32[] memory sbrands = new bytes32[](sellerCount);
+        string[] memory snames = new string[](sellerCount);
+        string[] memory sbrands = new string[](sellerCount);
         bytes32[] memory scodes = new bytes32[](sellerCount);
         uint256[] memory snums = new uint256[](sellerCount);
-        bytes32[] memory smanagers = new bytes32[](sellerCount);
-        bytes32[] memory saddress = new bytes32[](sellerCount);
+        string[] memory smanagers = new string[](sellerCount);
+        string[] memory saddress = new string
+        [](sellerCount);
         
         for(uint i=0; i<sellerCount; i++){
             for(uint j=0; j<sellerCodes.length; j++){
