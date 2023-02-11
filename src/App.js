@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 import Home from './components/Home';
-import consumerPurchaseHistory from './components/consumerPurchaseHistory';
+import consumerPurchaseHistory from '';
 
 function App() {
   const [isConsumer, setIsConsumer] = useState(false);
@@ -17,7 +17,7 @@ function App() {
       setaccount(accounts[0]);
     }
     const networkId = await web3.eth.net.getId();
-    
+
     
   };
 
@@ -25,12 +25,7 @@ function App() {
     return (
       <Switch>
         <Route path="/" exact component={Home} />
-        <Route
-          path="/purchase-history"
-          exact
-          component={consumerPurchaseHistory}
-        />
-        <Route path="/product-verification" exact component={consumerVerification} />
+        <Route path="/product-tracking" exact component={consumerTracking} />
       </Switch>
     )
   }
